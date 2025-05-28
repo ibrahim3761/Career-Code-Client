@@ -1,11 +1,12 @@
 import React from "react";
-import { useLoaderData } from "react-router"; 
+import { Link, useLoaderData } from "react-router"; 
 import { MapPin, Briefcase, Clock4, Mail, User } from "lucide-react";
 
 const JobDetails = () => {
   const job = useLoaderData();
 
   const {
+    _id,
     title,
     location,
     jobType,
@@ -98,9 +99,11 @@ const JobDetails = () => {
 
         {/* Apply Button */}
         <div className="mt-8 text-center">
+          <Link to={`/jobApply/${_id}`}>
           <button className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-lg font-semibold transition">
             Apply Now
           </button>
+          </Link>
         </div>
       </div>
     </div>
