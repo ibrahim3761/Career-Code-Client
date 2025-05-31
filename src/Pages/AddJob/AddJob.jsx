@@ -1,15 +1,53 @@
 import React from "react";
+import useAuth from "../../Hooks/useAuth";
+import axios from "axios";
+import Swal from "sweetalert2";
 
 const AddJob = () => {
+  const { user } = useAuth();
 
-    const handleAddJob = e =>{
-        e.preventDefault();
-        const form = e.taget;
-        const formData = new formData(form);
-        const data = Object.fromEntries(formData.entries());
-        console.log(data);
-        
-    }
+  const handleAddJob = (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries());
+
+    // process salary range data
+    const { min, max, currency, ...newJob } = data;
+    newJob.salaryRange = { min, max, currency };
+
+    // process requirements
+    const requirementsString = newJob.requirements;
+    const requirementsDirty = requirementsString.split(",");
+    const requirementsClean = requirementsDirty.map((req) => req.trim());
+    newJob.requirements = requirementsClean;
+    console.log(requirementsDirty, requirementsClean);
+
+    // process responsibilities
+    newJob.responsibilities = newJob.responsibilities
+      .split(",")
+      .map((res) => res.trim());
+
+    newJob.status = "active";
+    // send to backend
+    axios
+      .post("http://localhost:3000/jobs", newJob)
+      .then((res) => {
+        if (res.data.insertedId) {
+          Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "New Job added",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    console.log(Object.keys(newJob).length);
+  };
 
   return (
     <div className="min-h-screen flex justify-center items-start py-10 bg-base-100">
@@ -63,18 +101,21 @@ const AddJob = () => {
             />
             <input
               className="btn"
+              value="On-site"
               type="radio"
               name="jobType"
               aria-label="On-site"
             />
             <input
               className="btn"
+              value="Remote"
               type="radio"
               name="jobType"
               aria-label="Remote"
             />
             <input
               className="btn"
+              value="Hybrid"
               type="radio"
               name="jobType"
               aria-label="Hybrid"
@@ -116,7 +157,7 @@ const AddJob = () => {
               <input
                 type="number"
                 className="input input-bordered w-full"
-                name="salaryMin"
+                name="min"
                 placeholder="Minimum Salary"
               />
             </div>
@@ -125,7 +166,7 @@ const AddJob = () => {
               <input
                 type="number"
                 className="input input-bordered w-full"
-                name="salaryMax"
+                name="max"
                 placeholder="Maximum Salary"
               />
             </div>
@@ -137,9 +178,8 @@ const AddJob = () => {
                 className="select select-bordered w-full"
               >
                 <option disabled={true}>Currency</option>
-                <option>BDT</option>
-                <option>USD</option>
-                <option>EURO</option>
+                <option>bdt</option>
+                <option>usd</option>
               </select>
             </div>
           </div>
@@ -148,22 +188,34 @@ const AddJob = () => {
         {/* Job Description */}
         <fieldset className="fieldset bg-base-200 border-base-300 rounded-box border p-4">
           <legend className="fieldset-legend">Job Description</legend>
-          <textarea className="textarea w-full" name="description" placeholder="Job Description"></textarea>
+          <textarea
+            className="textarea w-full"
+            name="description"
+            placeholder="Job Description"
+          ></textarea>
         </fieldset>
 
         {/* Job Requirements */}
         <fieldset className="fieldset bg-base-200 border-base-300 rounded-box border p-4">
           <legend className="fieldset-legend">Job Requirements</legend>
-          <textarea className="textarea w-full" name="requirements" placeholder="Job Requirements (Separated by comma)"></textarea>
+          <textarea
+            className="textarea w-full"
+            name="requirements"
+            placeholder="Job Requirements (Separated by comma)"
+          ></textarea>
         </fieldset>
 
         {/* Job Responsibilities */}
         <fieldset className="fieldset bg-base-200 border-base-300 rounded-box border p-4">
           <legend className="fieldset-legend">Job Responsibilities</legend>
-          <textarea className="textarea w-full" name="responsibilities" placeholder="Job Responsibilities (Separated by comma)"></textarea>
+          <textarea
+            className="textarea w-full"
+            name="responsibilities"
+            placeholder="Job Responsibilities (Separated by comma)"
+          ></textarea>
         </fieldset>
 
-         {/* HR related Info */}
+        {/* HR related Info */}
         <fieldset className="fieldset bg-base-200 border-base-300 rounded-box border p-4">
           <legend className="fieldset-legend">HR Related Info</legend>
 
@@ -178,6 +230,7 @@ const AddJob = () => {
           <label className="label">HR Email</label>
           <input
             type="email"
+            defaultValue={user.email}
             className="input input-bordered w-full"
             name="hr_email"
             placeholder="HR email"

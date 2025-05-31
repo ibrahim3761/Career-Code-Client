@@ -3,19 +3,19 @@ import Banner from "./Banner";
 import { Briefcase, Code, BarChart3, Rocket } from "lucide-react";
 import HotJobs from "./HotJobs";
 
-const jobsPromise = fetch("http://localhost:3000/jobs").then((res) =>
-  res.json()
-);
 const Home = () => {
+  const jobsPromise = fetch("http://localhost:3000/jobs").then((res) =>
+    res.json()
+  );
   return (
     <div>
       <div className="container mx-auto px-4">
         <Banner></Banner>
       </div>
 
-      <div  className="bg-white w-full px-4 md:px-10">
-        <Suspense fallback={'Loading'}>
-            <HotJobs jobsPromise={jobsPromise}></HotJobs>
+      <div className="bg-white w-full px-4 md:px-10">
+        <Suspense fallback={"Loading"}>
+          <HotJobs jobsPromise={jobsPromise}></HotJobs>
         </Suspense>
       </div>
       <div className="container mx-auto px-4">
