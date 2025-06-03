@@ -8,7 +8,7 @@ const MyPostedJobs = () => {
     return (
         <div className="w-full items-center text-center">
             <Suspense fallback={'Loading..'}>
-                <JobList myPostedJobsPromise={myPostedJobsPromise(user.email)}></JobList>
+                <JobList myPostedJobsPromise={myPostedJobsPromise(user.email,user.accessToken)}></JobList>
             </Suspense>
         </div>
     );

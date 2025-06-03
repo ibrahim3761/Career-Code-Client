@@ -11,7 +11,7 @@ const MyApplications = () => {
         <div className="w-full items-center text-center">
             <ApplicationStats></ApplicationStats>
             <Suspense fallback={'Loading...'}>
-                <ApplicationLists myApplicationsPromise={myApplicationsPromise(user.email)}></ApplicationLists>
+                <ApplicationLists myApplicationsPromise={myApplicationsPromise(user.email, user.accessToken)}></ApplicationLists>
             </Suspense>
         </div>
     );
