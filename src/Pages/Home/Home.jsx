@@ -4,7 +4,7 @@ import { Briefcase, Code, BarChart3, Rocket } from "lucide-react";
 import HotJobs from "./HotJobs";
 
 const Home = () => {
-  const jobsPromise = fetch("http://localhost:3000/jobs").then((res) =>
+  const jobsPromise = fetch("https://career-code-server-wine.vercel.app/jobs").then((res) =>
     res.json()
   );
   return (

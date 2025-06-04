@@ -31,7 +31,7 @@ const AddJob = () => {
     newJob.status = "active";
     // send to backend
     axios
-      .post("http://localhost:3000/jobs", newJob)
+      .post("https://career-code-server-wine.vercel.app/jobs", newJob)
       .then((res) => {
         if (res.data.insertedId) {
           Swal.fire({

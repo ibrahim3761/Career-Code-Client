@@ -9,7 +9,7 @@ const ViewApplications = () => {
   const handleStatusChange = (e, app_id) => {
     console.log(e.target.value, app_id);
     axios
-      .patch(`http://localhost:3000/applications/${app_id}`, {
+      .patch(`https://career-code-server-wine.vercel.app/applications/${app_id}`, {
         status: e.target.value,
       })
       .then((res) => {
@@ -31,7 +31,7 @@ const ViewApplications = () => {
   return (
     <div className="w-full items-center text-center">
       <h3 className="text-4xl font-bold py-5">
-        {applications.length} Application for {job_id}
+        {applications.length} Application for this job
       </h3>
       <div className="overflow-x-auto">
         <table className="table">

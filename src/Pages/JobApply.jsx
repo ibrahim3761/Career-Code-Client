@@ -23,7 +23,7 @@ const JobApply = () => {
       resume,
     };
     axios
-      .post("http://localhost:3000/applications", application)
+      .post("https://career-code-server-wine.vercel.app/applications", application)
       .then((res) => {
         console.log(res.data);
         if (res.data.insertedId) {

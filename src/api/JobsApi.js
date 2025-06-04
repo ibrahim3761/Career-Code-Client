@@ -1,5 +1,5 @@
 export const myPostedJobsPromise = (email,accessToken) =>{
-    return fetch(`http://localhost:3000/jobs/applications?email=${email}`,{
+    return fetch(`https://career-code-server-wine.vercel.app/jobs/applications?email=${email}`,{
         headers: {
             authorization: `Bearer ${accessToken}`
         }
